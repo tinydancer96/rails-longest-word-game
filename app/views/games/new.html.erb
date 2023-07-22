@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-8 col-sm-8 col-12">
+      <h1>New Game!</h1>
+      <div class="d-flex flex-wrap justify-content-center">
+        <% @letters.each do |letter| %>
+          <div class="px-3 py-1">
+            <p><%= letter %></p>
+          </div>
+        <% end %>
+      </div>
+        <form action="/score" method="post" data-turbo="false">
+          <label for="play-btn">Type in your word...</label>
+          <input name="guess" type="text" id="play-btn" class="form-control">
+          <input class="btn btn-primary mt-2" type="submit">
+        </form>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    </div>
+  </div>
+</div>
