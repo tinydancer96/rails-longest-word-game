@@ -9,12 +9,12 @@
           </div>
         <% end %>
       </div>
-        <form action="/score" method="post" data-turbo="false">
+        <form action="score" method="post" data-turbo="false">
           <label for="play-btn">Type in your word...</label>
           <input name="guess" type="text" id="play-btn" class="form-control">
           <input class="btn btn-primary mt-2" type="submit">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
         </form>
-        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     </div>
   </div>
 </div>
