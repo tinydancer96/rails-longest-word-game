@@ -1,40 +1,30 @@
-require 'json'
-require 'open-uri'
+require "open-uri"
 
 class GamesController < ApplicationController
+  VOWELS = %w(A E I O U Y)
+
   def new
-    alphabet = ('a'..'z').to_a * 2
-    vowels = ('aeiou').chars * 4
-    @letters = alphabet.sample(7) + vowels.sample(3)
+    @letters = Array.new(5) { VOWELS.sample }
+    @letters += Array.new(5) { (('A'..'Z').to_a - VOWELS).sample }
+    @letters.shuffle!
   end
 
   def score
-    @word = params[:guess]
-    english_word
-
-    @result = ""
-
-     if !@letters.include?(@word)
-       @result = "Your word can't be built from the list!"
-       raise
-     elsif @hash_api == false
-       @result = "Your word is not a valid English word!"
-     else
-       @result = "Congrats! #{@word} is a valid English word!"
-     end
-
-    @result
+    @letters = params[:letters].split
+    @word = (params[:word] || "").upcase
+    @included = included?(@word, @letters)
+    @english_word = english_word?(@word)
   end
 
   private
 
-  def overused?
-    @word.chars.all? { |char| attempt.count(char) <= @letters.count(char) }
+  def included?(word, letters)
+    word.chars.all? { |letter| word.count(letter) <= letters.count(letter) }
   end
 
-  def english_word
-    api_url = "https://wagon-dictionary.herokuapp.com/#{@word}"
-    html = URI.open(api_url).read
-    @hash_api = JSON.parse(html)
+  def english_word?(word)
+    response = URI.open("https://wagon-dictionary.herokuapp.com/#{word}")
+    json = JSON.parse(response.read)
+    json['found']
   end
 end

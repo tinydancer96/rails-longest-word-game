@@ -1,7 +1,17 @@
-<div class="row justify-content-center">
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
   <div class="col-lg-4 col-md-8 col-sm-8 col-12">
-    <p>Your word: <%= @word %></p>
+    <h1>Result</h1>
 
-    <%= link_to "New Game", new_path, class: "btn btn-primary text-white py-2" %>
+    <% if @included %>
+      <% if @english_word %>
+        <p><strong>Congratulations! 🥳 </strong> <%= @word %> is a valid English word!</p>
+      <% else %>
+        <p>Sorry but <strong><%= @word %></strong> does not seem to be a valid English word... 🤯 </p>
+      <% end %>
+    <% else %>
+      <p>Sorry but <strong><%= @word %></strong> can't be built out of <%= @letters.join(", ") %> 😰</p>
+    <% end %>
+
+    <%= link_to "Play again", new_path, class: "btn btn-primary text-white mt-3" %>
   </div>
 </div>

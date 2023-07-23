@@ -1,20 +1,22 @@
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-lg-4 col-md-8 col-sm-8 col-12">
-      <h1>New Game!</h1>
-      <div class="d-flex flex-wrap justify-content-center">
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="col-lg-4 col-md-8 col-sm-8 col-12">
+    <h1>New game</h1>
+
+      <ul class="list-unstyled d-flex flex-wrap">
         <% @letters.each do |letter| %>
-          <div class="px-3 py-1">
-            <p><%= letter %></p>
-          </div>
+          <li class="px-3 py-1"><%= letter %></li>
         <% end %>
+      </ul>
+
+    <p class="form-prefix">What is the longest word you can find?</p>
+
+    <form action="/score" method="POST" data-turbo="false" class="d-flex flex-column">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <%= hidden_field_tag :letters, @letters %>
+      <div class="input-group">
+        <input type="text" name="word" class="form-control">
+        <input type="submit" value="Play" class="btn btn-primary">
       </div>
-        <form action="score" method="post" data-turbo="false">
-          <label for="play-btn">Type in your word...</label>
-          <input name="guess" type="text" id="play-btn" class="form-control">
-          <input class="btn btn-primary mt-2" type="submit">
-          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-        </form>
-    </div>
+    </form>
   </div>
 </div>
